@@ -43,18 +43,20 @@ public class MainActivity extends AppCompatActivity {
         }
         char[] inputCharArray =input.toCharArray();
         ArrayList<Character> compressionHelper = new ArrayList<Character>();
-        //for sure the first element will be the same in both the arrays
-        compressionHelper.add(inputCharArray[0]);
-        int repetationCounter=0;
-        for (int i=0;i<inputCharArray.length;i=i+repetationCounter){
+        int repetationCounter;
+        for (int i=0;i<inputCharArray.length;i=i+1+repetationCounter){
+            repetationCounter=0;
             for(int j=0;inputCharArray[i]==inputCharArray[i+j];j++){
                 repetationCounter=j;
             }
             compressionHelper.add(inputCharArray[i]);
             if(repetationCounter==0){
-                repetationCounter=1;
+                compressionHelper.add('1');
             }
-            compressionHelper.add(Integer.toString(repetationCounter).charAt(0));
+            else{
+                repetationCounter++;
+                compressionHelper.add(Integer.toString(repetationCounter).charAt(0));
+            }
             }
         return  compressionHelper.toString();
         }
