@@ -1,5 +1,6 @@
 package com.example.android.stringcompressor;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 public class MainActivity extends AppCompatActivity {
     private static TextView mResultTV;
@@ -35,20 +42,19 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
         char[] inputCharArray =input.toCharArray();
-        //for sure the compression won't be bigger than the original array, this logic is a ggod compromise instead of a List
-        char[] compressionHelper = new char[inputCharArray.length];
+        ArrayList<Character> compressionHelper = new ArrayList<Character>();
         //for sure the first element will be the same in both the arrays
-        compressionHelper[0]=inputCharArray[0];
-        int indexHelper =0, repetationCounter=0;
+        compressionHelper.add(inputCharArray[0]);
+        int repetationCounter=0;
         for (int i=0;i<inputCharArray.length;i=i+repetationCounter){
-            for(int j=0;inputCharArray[i]==inputCharArray[i+1];j++){
+            for(int j=0;inputCharArray[i]==inputCharArray[i+j];j++){
                 repetationCounter=j;
             }
-            compressionHelper[i]=inputCharArray[i];
+            compressionHelper.add(inputCharArray[i]);
             if(repetationCounter==0){
                 repetationCounter=1;
             }
-            compressionHelper[i+1]=Integer.toString(repetationCounter).charAt(0);
+            compressionHelper.add(Integer.toString(repetationCounter).charAt(0));
             }
         return  compressionHelper.toString();
         }
