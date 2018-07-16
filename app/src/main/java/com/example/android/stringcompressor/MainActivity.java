@@ -9,11 +9,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityPresenter.View{
     private static TextView mResultTV;
     private static EditText mInputEV;
     private static Button mCompressionButton;
-    private StringCompressor mStringCompressor;
+    private MainActivityPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,14 +22,19 @@ public class MainActivity extends AppCompatActivity {
         mResultTV = findViewById(R.id.resultTV);
         mInputEV = findViewById(R.id.stringInputEditText);
         mCompressionButton = findViewById(R.id.compressButton);
+        mPresenter = new MainActivityPresenter(this,this);
 
         mCompressionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mStringCompressor = new StringCompressor();
-                mResultTV.setText(mStringCompressor.compressString(mInputEV.getText().toString()));
+                mPresenter.compressString(mInputEV.getText().toString());
             }
         });
+    }
+
+    @Override
+    public void updateResult(String compressedString) {
+        mResultTV.setText(compressedString);
     }
 }
 
